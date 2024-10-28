@@ -2,7 +2,6 @@
   "type": "module",
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "mocha *.test.js",
@@ -16,5 +15,10 @@
     "express": "^4.21.1",
     "nodemon": "^3.1.7",
     "pg": "^8.13.1"
-  }
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^10.7.3"
+  },
+  "description": ""
 }
