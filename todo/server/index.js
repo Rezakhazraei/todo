@@ -1,18 +1,25 @@
 import express from "express";
 import cors from "cors";
-import pkg from "pg";
+import todoRouter from "./routers/todoRouter.js";
 
-const port = 3001
-const { Pool } = pkg
+
+const port = process.env.PORT
+
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use('/', todoRouter)
 
-app.get("/", (req, res) => {
-    const pool = openDb()
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500
+    res.status(statusCode).json({error: err.message})
+})
 
+app.listen(port)
+
+/*app.get("/", (req, res) => {
     pool.query("select * from task", (error, result) => {
         if (error) {
             return res.status(500).json({error: error.message})
@@ -22,8 +29,6 @@ app.get("/", (req, res) => {
 })
 
 app.post("/create", (req,res) => {
-    const pool = openDb()
-
     pool.query("insert into task (description) values ($1) returning *", 
     [req.body.description], (error, result) => {
         if (error) {
@@ -34,7 +39,6 @@ app.post("/create", (req,res) => {
 })
 
 app.delete("/delete/:id", (req,res) => {
-    const pool = openDb()
     const id = parseInt(req.params.id)
 
     pool.query("delete from task where id = $1", 
@@ -44,17 +48,4 @@ app.delete("/delete/:id", (req,res) => {
         }
         return res.status(200).json({id: id})
     })
-})
-
-const openDb = () => {
-    const pool = new Pool ({
-        user: "postgres",
-        host: "localhost",
-        database: "todo",
-        password: 'Reza1380',
-        port: 5433
-    })
-    return pool
-}
-
-app.listen(port)
+})*/
